@@ -70,7 +70,8 @@ read -p "Upgrade shell to zsh? (y/n) " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     sudo apt-get install zsh
-    chsh -s $(which zsh)
+    echo 'if [ -t 1 ]; then exec zsh; fi' >> ~/.bashrc
+    # chsh -s $(which zsh)
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
     # echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >>~/.zshrc
