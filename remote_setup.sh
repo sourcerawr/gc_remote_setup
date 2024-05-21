@@ -45,7 +45,6 @@ else
     echo "Skipping gh authentication..."
 fi
 
-
 # installing python packages
 sudo apt-get install python3-pip
 pip3 install python-language-server
@@ -56,3 +55,18 @@ pip3 install numpy
 pip3 install matplotlib
 pip3 install seaborn
 pip3 install scikit-learn
+
+# asking if you want shell upgrade to zsh
+# installing zsh and powerlevel10k theme
+read -p "Upgrade shell to zsh? (y/n) " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    sudo apt-get install zsh
+    chsh -s $(which zsh)
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
+    echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >>~/.zshrc
+    source ~/.zshrc
+else
+    echo "Skipping shell upgrade..."
+fi
