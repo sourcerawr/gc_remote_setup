@@ -29,9 +29,24 @@ else
     echo "Skipping update..."
 fi
 
-# installing python packages
 # jupyter notebook; tensorflow; pandas; numpy; matplotlib; seaborn; scikit-learn
+sudo apt-get install git
+sudo apt-get install gh
+
+# asking if you want to authenticate gh
+read -p "Authenticate gh? (y/n) " -n 1 -r
+# authenticate gh
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    gh auth login
+else
+    echo "Skipping gh authentication..."
+fi
+
+
+# installing python packages
 sudo apt-get install python3-pip
+pip3 install python-language-server
 pip3 install jupyter
 pip3 install tensorflow
 pip3 install pandas
