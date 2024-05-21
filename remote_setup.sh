@@ -46,15 +46,23 @@ else
 fi
 
 # installing python packages
-sudo apt-get install python3-pip
-pip3 install python-language-server
-pip3 install jupyter
-pip3 install tensorflow
-pip3 install pandas
-pip3 install numpy
-pip3 install matplotlib
-pip3 install seaborn
-pip3 install scikit-learn
+# asking
+read -p "Install python packages? (y/n) " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    sudo apt-get install python3
+    sudo apt-get install python3-pip
+    pip3 install python-language-server
+    pip3 install jupyter
+    pip3 install tensorflow
+    pip3 install pandas
+    pip3 install numpy
+    pip3 install matplotlib
+    pip3 install seaborn
+    pip3 install scikit-learn
+else
+    echo "Skipping python packages..."
+fi
 
 # asking if you want shell upgrade to zsh
 # installing zsh and powerlevel10k theme
