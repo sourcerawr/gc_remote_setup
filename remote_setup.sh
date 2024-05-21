@@ -39,6 +39,8 @@ read -p "Authenticate gh? (y/n) " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     gh auth login
+    git config --global user.email "ashwary0102@gmail.com"
+    git config --global user.name "Ashwary Sharma"
 else
     echo "Skipping gh authentication..."
 fi
