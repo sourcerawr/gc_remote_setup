@@ -60,6 +60,8 @@ then
     pip3 install matplotlib
     pip3 install seaborn
     pip3 install scikit-learn
+    pip3 install plotly
+    pip3 install transformers
 else
     echo "Skipping python packages..."
 fi
@@ -80,7 +82,7 @@ else
     echo "Skipping shell upgrade..."
 fi
 
-# installing VS Code extensions - python, copilot, jupyter, errorlens, data wranger, gitlens - let's first see which all are needed
+# installing VS Code extensions - python, copilot, jupyter, errorlens, data wranglera, gitlens - let's first see which all are needed
 # asking
 read -p "Install VS Code extensions? (y/n) " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
@@ -88,6 +90,7 @@ then
     code --install-extension ms-python.python
     code --install-extension github.copilot
     code --install-extension ms-toolsai.jupyter
+    code --install-extension ms-data.data-wrangler
 else
     echo "Skipping VS Code extensions..."
 fi
