@@ -29,7 +29,7 @@ else
     echo "Skipping update..."
 fi
 
-# jupyter notebook; tensorflow; pandas; numpy; matplotlib; seaborn; scikit-learn
+# packages
 sudo apt-get install git
 sudo apt-get install gh
 
@@ -74,10 +74,18 @@ then
     code --install-extension ms-python.python
     code --install-extension github.copilot
     code --install-extension ms-toolsai.jupyter
-    code --install-extension ms-data.data-wrangler
+    code --install-extension ms-toolssai.datawrangler
+    code --install-extension mechatroner.rainbow-csv 
 else
     echo "Skipping VS Code extensions..."
 fi
+
+# asking if you want to set up working directory
+read -p "Set up working directory? (y/n) " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    mkdir -p ./cloud_workspace
+    cd ./cloud_workspace
 
 # asking if you want shell upgrade to zsh
 # installing zsh and powerlevel10k theme
@@ -86,8 +94,8 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     sudo apt-get install zsh
     echo 'if [ -t 1 ]; then exec zsh; fi' >> ~/.bashrc
-    # chsh -s $(which zsh)
     sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    # chsh -s $(which zsh)
     # git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
     # echo 'ZSH_THEME="powerlevel10k/powerlevel10k"' >>~/.zshrc
     # source ~/.zshrc
