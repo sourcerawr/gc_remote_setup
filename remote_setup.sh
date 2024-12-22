@@ -1,3 +1,7 @@
+#!/bin/bash
+set -e  # Exit on error
+echo "Starting Vast.ai instance setup..."
+
 # to install things on the cloud
 
 # system information
@@ -6,6 +10,7 @@ free -h
 df -h
 lsb_release -a
 lspci | grep VGA
+nvidia-smi
 
 # yn prompt to continue
 read -p "Continue? (y/n) " -n 1 -r
@@ -50,34 +55,24 @@ fi
 read -p "Install python packages? (y/n) " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    sudo apt-get install python3
-    sudo apt-get install python3-pip
-    pip3 install python-language-server
-    pip3 install jupyter
-    pip3 install tensorflow
-    pip3 install pandas
-    pip3 install numpy
-    pip3 install matplotlib
-    pip3 install seaborn
-    pip3 install scikit-learn
-    pip3 install plotly
-    pip3 install transformers
+    conda install -y \
+        jupyter \
+        pandas \
+        numpy \
+        matplotlib \
+        seaborn \
+        scikit-learn \
+        plotly \
+        transformers \
+        pytorch \
+        torchvision \
+        torchaudio \
+        cudatoolkit
+
+    # Register the kernel
+    python -m ipykernel install --user --name python3 --display-name "Python (base)"
 else
     echo "Skipping python packages..."
-fi
-
-# installing VS Code extensions - python, copilot, jupyter, errorlens, data wranglera, gitlens - let's first see which all are needed
-# asking
-read -p "Install VS Code extensions? (y/n) " -n 1 -r
-if [[ $REPLY =~ ^[Yy]$ ]]
-then
-    code --install-extension ms-python.python
-    code --install-extension github.copilot
-    code --install-extension ms-toolsai.jupyter
-    code --install-extension ms-toolssai.datawrangler
-    code --install-extension mechatroner.rainbow-csv 
-else
-    echo "Skipping VS Code extensions..."
 fi
 
 # asking if you want to set up working directory
@@ -101,4 +96,34 @@ then
     # source ~/.zshrc
 else
     echo "Skipping shell upgrade..."
+fi
+
+# Add new Jupyter setup section before VS Code extensions
+read -p "Setup Jupyter? (y/n) " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    # Create Jupyter config
+    jupyter notebook --generate-config
+    
+    # Setup password
+    jupyter notebook password
+    
+    # Configure Jupyter
+    echo "c.NotebookApp.ip = '0.0.0.0'" >> ~/.jupyter/jupyter_notebook_config.py
+    echo "c.NotebookApp.open_browser = False" >> ~/.jupyter/jupyter_notebook_config.py
+    echo "c.NotebookApp.port = 8888" >> ~/.jupyter/jupyter_notebook_config.py
+fi
+
+# installing VS Code extensions - python, copilot, jupyter, errorlens, data wranglera, gitlens - let's first see which all are needed
+# asking
+read -p "Install VS Code extensions? (y/n) " -n 1 -r
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    code --install-extension ms-python.python
+    code --install-extension github.copilot
+    code --install-extension ms-toolsai.jupyter
+    code --install-extension ms-toolssai.datawrangler
+    code --install-extension mechatroner.rainbow-csv 
+else
+    echo "Skipping VS Code extensions..."
 fi
